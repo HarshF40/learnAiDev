@@ -12,6 +12,7 @@
 #method chaining
 name = input("Whats your Name? ").strip().title()
 
+first , last = name.split(); #this will split the name in two halves the first part will be stored in the first and last part in the last...
+
 print(f"Hello, {name}")
-
-
+print(f"Hello, {first}");
