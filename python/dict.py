@@ -9,3 +9,9 @@ fruit = {
 print(fruit["red"])
 print(fruit["blue"])
 print(fruit["pink"])
+
+fruit2 = [
+        {"color" : "red","fruit" : "apple"},
+        {"color" : "yellow","fruit":"banana"},
+        {""},
+        ]
