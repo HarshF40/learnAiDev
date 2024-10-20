@@ -1,3 +1,4 @@
+#interpreter for two variables in expression
 expression = input("Expression: ")
 
 whitespaces = []
