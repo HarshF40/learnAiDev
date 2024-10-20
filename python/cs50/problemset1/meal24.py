@@ -24,7 +24,7 @@ def convert(time):
     elif meridiem == "am":
         return (hours+(minute/60))
     elif meridiem == "pm":
-        return (hours(minute/60))+12
+        return (hours+(minute/60))+12
 
 if __name__ == "__main__":
     main()
