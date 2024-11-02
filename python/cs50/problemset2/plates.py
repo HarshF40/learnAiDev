@@ -12,5 +12,6 @@ def is_valid(s):
         if s[i].isdigit() and s[i+1].isalpha() or not s[i].isalnum() or (s[i].isalpha() and s[i+1] == "0"):
             return False
     return True        
-    
-main()
+  
+if __name__ == "__main__":  
+    main()

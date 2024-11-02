@@ -1,9 +1,22 @@
-text = input("Input : ")
+def main():
+    text = input("Input : ")
+    print(f"{shorten(text)}")
 
-i=0
-while i < len(text):
-    if text[i] in {'a','e','i','o','u','A','E','I','O','U'}:
-        text = text[:i] + text[i+1:]
-    i+=1
+def shorten(str):
+    
+    i=0
+    while i < len(str):
+        if str[i] in {'a','e','i','o','u','A','E','I','O','U'}:
+            str = str[:i] + str[i+1:]
+        i+=1
+        
+    i=0
+    while i < len(str):
+        if str[i] in {'a','e','i','o','u','A','E','I','O','U'}:
+            str = str[:i] + str[i+1:]
+        i+=1
 
-print(text)
+    return str
+
+if __name__ == "__main__":
+    main()
