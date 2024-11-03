@@ -14,12 +14,16 @@ def main():
         sys.exit("Not a CSV file")
         
     try :
-        data =[]
-        with open(sys.argv[1],"r") as file :
-            reader = csv.DictReader(file)
-            for row in file :
+        data = []
+        with open(sys.argv[1], newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
                 data.append(row)
-        print(tabulate(data[1:],headers=data[0],tablefmt='grid'))  #tabulate(table data, table haeders, format)  
+
+        # Convert the data to a formatted table
+        headers = data[0]  # The first row is the header
+        table = data[1:]   # The remaining rows are the data  #tabulate(table data, table haeders, format)  
+        print(tabulate(table, headers=headers, tablefmt='grid'))
     except FileNotFoundError :
         sys.exit("CSV file not found")
         
