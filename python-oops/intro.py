@@ -35,16 +35,19 @@ class Student:
     print("Setter Called")
     self._house = house ## _ to avoid infinite recursion
     
-##this function creates a student object and returns it... 
-def get_student():
-  name = input("Name: ")
-  house = input("House: ")
-  return Student(name,house)
+##this function creates a student object and returns it...
+  @classmethod
+  def get(cls):
+    name = input("Name: ")
+    house = input("House: ")
+    return cls(name,house)
 
 def main():
-  student = get_student()
+  student = Student.get()
   print(student)
   student.house = "Egg Head" ##this will call the setter automatically ## but if we change house to _house we can access do the thing which the setter is doing... and no calls to the setter will be made it will be directly change the value
   
 if __name__ == "__main__":
   main()
+  
+  ##to create an object of a class we can do var = Class() ## this will create an=empty object
