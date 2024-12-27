@@ -1,3 +1,4 @@
+#preorder, postorder
 from typing import Union
 
 class TreeNode:
@@ -19,6 +20,19 @@ def makeTree(data):
         node = TreeNode(data)
     return node
 
+def display(node, space='\t', level=0):
+    if node is None:
+        print(space*level+'?')
+        return
+
+    if node.left is None and node.right is None:
+        print(space*level+str(node.key))
+        return
+
+    display(node.right, space, level+1)
+    print(space*level+str(node.key))
+    display(node.left, space, level+1)
+
 def treeToTuple(structure):
     if structure is not None:
         if structure.right or structure.left :
@@ -36,6 +50,42 @@ def treeToTupleV2(structure):
     else:
         return 'None'
 
+def inorderTraverse(node):
+    if node.left is not None:
+        inorderTraverse(node.left)
+        print(node.key, end=" ")
+        if node.right is not None:
+            inorderTraverse(node.right)
+    elif node.left is None or node.right is None:
+        print(node.key, end=" ")
+        if node.right is not None:
+            inorderTraverse(node.right)
+
+def inorderTraverseV2(node):
+    if node is None:
+        return
+    if node.left is not None:
+        inorderTraverse(node.left)
+    print(node.key, end=" ")
+    if node.right is not None:
+        inorderTraverse(node.right)
+
+def preorderTraverse(node):
+    if node is None:
+        return
+    print(node.key, end=" ")
+    preorderTraverse(node.left)
+    preorderTraverse(node.right)
+
+def postorderTraverse(node):
+    if node is None:
+        return None
+    postorderTraverse(node.left)
+    postorderTraverse(node.right)
+    print(node.key,end=" ")
+
+
+
 def main():
     data = ((1,3,None), 2, ((None,3,4), 5, (6,7,8)))
     node = makeTree(data)
@@ -43,6 +93,12 @@ def main():
     treeToTupleV2Output = treeToTupleV2(node)
     print(treeToTupleOutput)
     print(treeToTupleV2Output)
+    #display(node)
+    inorderTraverseV2(node)
+    print("")
+    preorderTraverse(node)
+    print("")
+    postorderTraverse(node)
 
 if __name__ == "__main__":
     main()
