@@ -1,4 +1,3 @@
-#preorder, postorder
 from typing import Union
 
 class TreeNode:
@@ -62,8 +61,6 @@ def inorderTraverse(node):
             inorderTraverse(node.right)
 
 def inorderTraverseV2(node):
-    if node is None:
-        return
     if node.left is not None:
         inorderTraverse(node.left)
     print(node.key, end=" ")
@@ -84,7 +81,17 @@ def postorderTraverse(node):
     postorderTraverse(node.right)
     print(node.key,end=" ")
 
+def treeHeight(node):
+    if node is None:
+        return 0;
+    else:
+        return 1+max(treeHeight(node.left), treeHeight(node.right))
 
+def count(node):
+    if node is None:
+        return 0
+    else:
+        return 1 + count(node.left) + count(node.right)
 
 def main():
     data = ((1,3,None), 2, ((None,3,4), 5, (6,7,8)))
@@ -93,12 +100,16 @@ def main():
     treeToTupleV2Output = treeToTupleV2(node)
     print(treeToTupleOutput)
     print(treeToTupleV2Output)
-    #display(node)
+    display(node)
     inorderTraverseV2(node)
     print("")
     preorderTraverse(node)
     print("")
     postorderTraverse(node)
+    print("")
+    print("")
+    print(f"Height: {treeHeight(node)}")
+    print(f"Nodes: {count(node)}")
 
 if __name__ == "__main__":
     main()
