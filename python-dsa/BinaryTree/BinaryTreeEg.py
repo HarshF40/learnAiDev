@@ -94,7 +94,7 @@ def count(node):
         return 1 + count(node.left) + count(node.right)
 
 def main():
-    data = ((1,3,None), 2, ((None,3,4), 5, (6,7,8)))
+    data = ((1,3,(4,6,7)),8,(None,10,(13,14,None)))
     node = makeTree(data)
     treeToTupleOutput = treeToTuple(node)
     treeToTupleV2Output = treeToTupleV2(node)
