@@ -1,4 +1,4 @@
-#from typing import Union
+from typing import Optional
 
 class contact: #contact defination
     def __init__(self, name, number):
@@ -6,6 +6,9 @@ class contact: #contact defination
         self.number = number 
 
 class TreeNode: #BST node defination
+    left: Optional['TreeNode']
+    right: Optional['TreeNode']
+
     def __init__(self, value = None):
         if value is not None :
             self.key = value.number
@@ -18,12 +21,11 @@ class TreeNode: #BST node defination
 
     def insert(self, data):
         if self.value is None:
-            node = self
-            node.key = data.number
-            node.value = data
-            return node
+            self.key = data.number
+            self.value = data
+            return
         node = self
-        while(True):
+        while True :
             if data.number > node.key :
                 if node.right is not None:
                     node = node.right
@@ -54,22 +56,40 @@ class TreeNode: #BST node defination
         print(self.value.name if self.value else None, end = " ")
         self.right.parse() if self.right else None
 
-def balance():
-    pass
+    def display(self, space = "\t", level = 0):
+        if self.left is None and self.right is None:
+            print(space*level + f"{self.key}")
+        self.right.display(space, level+1) if self.right else None
+        print(space*level+ f"{self.key}")
+        self.left.display(space, level+1) if self.left else None
+
+def make_balanced(data, low = 0, high = None, parent = None):
+    if high is None:
+        high = len(data) - 1
+    if low > high:
+        return None
+    mid = (low + high) // 2
+    node = TreeNode(data[mid])
+    node.parent = parent
+    node.left = make_balanced(data, low, mid-1, node)
+    node.right = make_balanced(data, mid+1, high, node)
+    return node
 
 def main():
     Tree = TreeNode()
-    user0 = contact("z", 7)
-    user1 = contact("a", 99)
+    user0 = contact("z", 0)
+    user1 = contact("a", 1)
     user2 = contact("b", 2)
-    user3 = contact("c", 1)
+    user3 = contact("c", 3)
     Tree.insert(user0)
     Tree.insert(user1)
     Tree.insert(user2)
     Tree.insert(user3)
     Tree.parse()
+    Tree.display()
     users = Tree.listfy()
-    print(users)
+    Tree = make_balanced(users)
+    Tree.display()
 
 if __name__ == "__main__":
     main()
