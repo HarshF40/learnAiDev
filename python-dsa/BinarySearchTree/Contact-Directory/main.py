@@ -40,10 +40,14 @@ class TreeNode: #BST node defination
                     node.left = TreeNode(data)
                     node.left.parent = node
                     break
-        return node
+        self.replace(make_balanced(self.listfy()))
 
-    def balance(self):
-        pass
+    def replace(self,root):
+        self.key = root.key
+        self.value = root.value
+        self.right = root.right
+        self.left = root.left
+        self.parent = root.parent
 
     def listfy(self):
         arr1 = self.left.listfy() if self.left else []
@@ -59,6 +63,7 @@ class TreeNode: #BST node defination
     def display(self, space = "\t", level = 0):
         if self.left is None and self.right is None:
             print(space*level + f"{self.key}")
+            return
         self.right.display(space, level+1) if self.right else None
         print(space*level+ f"{self.key}")
         self.left.display(space, level+1) if self.left else None
@@ -85,10 +90,6 @@ def main():
     Tree.insert(user1)
     Tree.insert(user2)
     Tree.insert(user3)
-    Tree.parse()
-    Tree.display()
-    users = Tree.listfy()
-    Tree = make_balanced(users)
     Tree.display()
 
 if __name__ == "__main__":
