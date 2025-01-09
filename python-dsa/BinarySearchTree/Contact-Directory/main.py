@@ -55,10 +55,11 @@ class TreeNode: #BST node defination
         arr2 = self.right.listfy() if self.right else []
         return arr1 + arr2
 
-    def parse(self):
-        self.left.parse() if self.left else None
+    def parse(self, count = 0):
+        count += self.left.parse() if self.left else 0
         print(self.value.name if self.value else None, end = " ")
-        self.right.parse() if self.right else None
+        count += self.right.parse() if self.right else 0
+        return count + 1
 
     def display(self, space = "\t", level = 0):
         if self.left is None and self.right is None:
@@ -67,6 +68,37 @@ class TreeNode: #BST node defination
         self.right.display(space, level+1) if self.right else None
         print(space*level+ f"{self.key}")
         self.left.display(space, level+1) if self.left else None
+
+    def search(self, number):
+        if number > self.key :
+            val = self.right.search(number) if self.right else print("Not found")
+        elif number < self.key :
+            val = self.left.search(number) if self.left else print("Not found")
+        if number == self.key :
+            return self.value
+        return val
+
+    def delete(self, key):
+        arr = self.listfy()
+        low = 0
+        high = len(arr) - 1
+        mid = None
+        found = False
+        while low <= high :
+            mid = (low + high) // 2
+            print(low, mid, high)
+            if key == arr[mid].number :
+                found = True
+                break
+            if key > arr[mid].number :
+                low = mid + 1
+            elif key < arr[mid].number :
+                high = mid - 1
+        if found and mid is not None:
+           del arr[mid]
+           self.replace(make_balanced(arr))
+        else:
+            print("Not found")
 
 def make_balanced(data, low = 0, high = None, parent = None):
     if high is None:
@@ -86,11 +118,19 @@ def main():
     user1 = contact("a", 1)
     user2 = contact("b", 2)
     user3 = contact("c", 3)
+    user4 = contact("d", 4)
     Tree.insert(user0)
     Tree.insert(user1)
     Tree.insert(user2)
     Tree.insert(user3)
+    Tree.insert(user4)
     Tree.display()
+    print("---------------------------------------------------------------------------------")
+    print(Tree.parse())
+    Tree.delete(3)
+    print("---------------------------------------------------------------------------------")
+    Tree.display()
+    print(Tree.parse())
 
 if __name__ == "__main__":
     main()
