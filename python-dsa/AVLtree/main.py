@@ -4,7 +4,7 @@ class node:
         self.left = None
         self.right = None
         self.parent = None
-        self.height = 1
+        self.height = 0
 
 class AVLTree:
     def __init__(self):
@@ -31,6 +31,7 @@ class AVLTree:
                 self._insert(value, curNode.right)
         else :
             print("Value already exists")
+        curNode.height = self._height(curNode) 
 
     def illustrate(self) :
         if self.root == None :
@@ -93,6 +94,7 @@ class AVLTree:
             print("No element to delete!")
         else :
             self.root = self._delete(self.root, value)
+            self._heightAfterDelete(self.root)
 
     def _delete(self, curNode, value):
         if value < curNode.value :
@@ -103,7 +105,6 @@ class AVLTree:
             if curNode.left == None and curNode.right == None :
                 return None
             elif curNode.left and curNode.right == None :
-                print("hi")
                 return curNode.left
             elif curNode.right and curNode.left == None:
                 return curNode.right
@@ -116,31 +117,71 @@ class AVLTree:
                 return curNode.right
         return curNode
 
+    def _heightAfterDelete(self, curNode):
+        if curNode == None:
+            return 
+        self._heightAfterDelete(curNode.left)
+        curNode.height = self._height(curNode)
+        self._heightAfterDelete(curNode.right)
 
 def main():
+
     tree = AVLTree()
+
     tree.insert(5)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
     tree.insert(4)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
     tree.insert(6)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
     tree.insert(1)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
     tree.insert(3)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
     tree.insert(8)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
     tree.insert(10)
-    tree.insert(9)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
     tree.insert(7)
     tree.illustrate()
-    print(f"Height: {tree.height()}")
-    print(f"Is value present: {tree.search(1)}")
-    print("Inorder Traversal: ", end="")
-    tree.inOrderTraversal()
+    print("------------------------------------------------------------------")
+
+    tree.insert(9)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
     tree.delete(5)
     tree.illustrate()
+    print("------------------------------------------------------------------")
+
+
     tree.delete(8)
-    print("------------------------------------------------------------------")
     tree.illustrate()
-    tree.delete(1)
     print("------------------------------------------------------------------")
+
+
+    tree.delete(10)
     tree.illustrate()
+    print("------------------------------------------------------------------")
+
+
+    tree.delete(4)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
 
 if __name__ == "__main__":
     main()
