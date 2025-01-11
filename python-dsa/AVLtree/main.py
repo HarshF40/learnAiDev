@@ -15,6 +15,7 @@ class AVLTree:
             self.root = node(value)
         else :
             self._insert(value, self.root)
+            self.inspectInsertion(self.root)
 
     def _insert(self, value, curNode):
         if value < curNode.value :
@@ -31,7 +32,43 @@ class AVLTree:
                 self._insert(value, curNode.right)
         else :
             print("Value already exists")
-        curNode.height = self._height(curNode) 
+        curNode.height = self._height(curNode)
+
+    def inspectInsertion(self, curNode, path = []):
+        if curNode == None :
+            return 
+        self.inspectInsertion(curNode.left)
+        self.inspectInsertion(curNode.right)
+        path.append(curNode)
+        lefth = self._height(curNode.left)
+        right = self._height(curNode.right)
+        if(abs(lefth - right) > 1) :
+            print(curNode.value, path[-1].value)
+            self.rebalance(path[-1],path[-2],path[-3])
+
+    def rebalance(self, xNode, yNode, zNode):
+        if xNode.left == yNode and yNode.right == zNode:
+            xNode.left = self.leftRotation(yNode, zNode)
+            print(xNode.value, yNode.value, zNode.value)
+            node = self.rightRotation(xNode, zNode, yNode)
+            xNode.value = node.value
+            xNode.parent = node.parent
+            xNode.left = node.left
+            xNode.right = node.right
+
+    def leftRotation(self, xNode, yNode, zNode = None):
+        yNode.left = xNode
+        xNode.parent = yNode
+        xNode.right = None
+        yNode.right = zNode
+        return yNode
+
+    def rightRotation(self, xNode, yNode, zNode = None):
+        yNode.right = xNode
+        xNode.parent = yNode
+        xNode.left = None
+        yNode.right = zNode
+        return yNode
 
     def illustrate(self) :
         if self.root == None :
@@ -97,6 +134,9 @@ class AVLTree:
             self._heightAfterDelete(self.root)
 
     def _delete(self, curNode, value):
+        if curNode is None:
+            print("Number Not found")
+            return
         if value < curNode.value :
             curNode.left = self._delete(curNode.left, value)
         elif value > curNode.value :
@@ -180,6 +220,22 @@ def main():
 
 
     tree.delete(4)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
+    tree.insert(10)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
+    tree.insert(11)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
+    tree.insert(12)
+    tree.illustrate()
+    print("------------------------------------------------------------------")
+
+    tree.insert(13)
     tree.illustrate()
     print("------------------------------------------------------------------")
 
