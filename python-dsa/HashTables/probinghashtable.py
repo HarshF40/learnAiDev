@@ -1,4 +1,4 @@
-MAX_HASH_SIZE = 5
+MAX_HASH_SIZE = 4096
 
 class ProbingHashTable:
     def __init__(self, max_size = MAX_HASH_SIZE):
@@ -6,20 +6,14 @@ class ProbingHashTable:
         self._key_idx = {}
 
     def insert(self, key, value):
-        if all(x is not None for x in self.data_list):
-            print("Table is FULL")
-            return 
         idx = self._get_valid_index(key) % len(self.data_list)
-        if self.data_list[idx] != None :
-            start_pt = idx
-            idx +=1
-            while idx != start_pt :
-                if idx > len(self.data_list) - 1 : idx = (idx + 1) % len(self.data_list)
-                elif self.data_list[idx] == None :
-                    self.data_list[idx] = key, value
-                    break
-                else : idx += 1
-        else : self.data_list[idx] = key, value
+        start_idx = idx
+        while self.data_list[idx] != None :
+            idx = (idx + 1) % len(self.data_list)
+            if start_idx == idx :
+                print("Table is FULL")
+                return 
+        self.data_list[idx] = key, value
         self._key_idx[key] = idx
 
     def _get_valid_index(self, key):
@@ -56,10 +50,15 @@ def main():
     table.insert("AAAAAABBBCCCiDDDDEAAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEdddddd", 111111111)
     table.display()
     print("---------------------------------------------------------------------------------")
-    print(f"Find: {table.find("AAAAAABBBCCCDDDDEAAAAAABBBCCC5DDDDEAAAAAABBBCCCDDDDEddddddi")}")
     table.update("AAAAAABBBCCCiDDDDEAAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEdddddd", 5555555555)
     table.update("rhsHa", 3333333333)
     table.display()
+    print("---------------------------------------------------------------------------------")
+    print(table.find("Harsh"))
+    print(table.find("rsahH"))
+    print(table.find("rhsHa"))
+    print(table.find("AAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEddddddi"))
+    print(table.find("AAAAAABBBCCCiDDDDEAAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEdddddd"))
 
 if __name__ == "__main__":
     main()
