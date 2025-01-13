@@ -1,4 +1,4 @@
-MAX_HASH_SIZE = 4096
+MAX_HASH_SIZE = 5
 
 class ProbingHashTable:
     def __init__(self, max_size = MAX_HASH_SIZE):
@@ -6,19 +6,19 @@ class ProbingHashTable:
         self._key_idx = {}
 
     def insert(self, key, value):
-        idx = self._get_valid_index(key)
-        if idx > 4095 :
-            idx = 0
+        if all(x is not None for x in self.data_list):
+            print("Table is FULL")
+            return 
+        idx = self._get_valid_index(key) % len(self.data_list)
         if self.data_list[idx] != None :
             start_pt = idx
-            while idx+1 != start_pt :
-                if idx + 1 > 4095 :
-                    idx = 0
-                if self.data_list[idx] == None :
+            idx +=1
+            while idx != start_pt :
+                if idx > len(self.data_list) - 1 : idx = (idx + 1) % len(self.data_list)
+                elif self.data_list[idx] == None :
                     self.data_list[idx] = key, value
                     break
-                else :
-                    idx += 1
+                else : idx += 1
         else : self.data_list[idx] = key, value
         self._key_idx[key] = idx
 
@@ -30,9 +30,7 @@ class ProbingHashTable:
 
     def display(self):
         for i in range(len(self.data_list)):
-            if self.data_list[i] == None:
-                pass
-            else :
+            if self.data_list[i] != None:
                 print(self.data_list[i], i)
 
     def find(self, key):
@@ -40,6 +38,13 @@ class ProbingHashTable:
             return self.data_list[self._key_idx[key]], self._key_idx[key]
         else :
             return "No Value for the corresponding key"
+
+    def update(self, key, value):
+        if key in self._key_idx :
+            idx = self._key_idx[key]
+            self.data_list[idx] = key, value
+        else :
+            print("No existing element")
 
 def main():
     table = ProbingHashTable()
@@ -51,12 +56,10 @@ def main():
     table.insert("AAAAAABBBCCCiDDDDEAAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEdddddd", 111111111)
     table.display()
     print("---------------------------------------------------------------------------------")
-    print(f"Find: {table.find("arshH")}")
-    print(f"Find: {table.find("Harsh")}")
-    print(f"Find: {table.find("rhsHa")}")
-    print(f"Find: {table.find("rsahH")}")
-    print(f"Find: {table.find("AAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEddddddi")}")
-    print(f"Find: {table.find("AAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEddddddi")}")
+    print(f"Find: {table.find("AAAAAABBBCCCDDDDEAAAAAABBBCCC5DDDDEAAAAAABBBCCCDDDDEddddddi")}")
+    table.update("AAAAAABBBCCCiDDDDEAAAAAABBBCCCDDDDEAAAAAABBBCCCDDDDEdddddd", 5555555555)
+    table.update("rhsHa", 3333333333)
+    table.display()
 
 if __name__ == "__main__":
     main()
