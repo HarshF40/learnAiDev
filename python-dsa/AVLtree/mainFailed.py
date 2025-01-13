@@ -1,3 +1,5 @@
+#i will come back again after a week or so  and re-write the whole code properly (1-11-25)... will come back on (1-19-25)
+
 class node:
     def __init__(self, value = None):
         self.value = value
@@ -43,32 +45,51 @@ class AVLTree:
         lefth = self._height(curNode.left)
         right = self._height(curNode.right)
         if(abs(lefth - right) > 1) :
-            print(curNode.value, path[-1].value)
-            self.rebalance(path[-1],path[-2],path[-3])
+            #self.rebalance(path[-1],path[-2],path[-3])
+            print(path[-1].value, path[-2].value, path[-3].value)
+            self.rebalance(path[-1], path[-2], path[-3])
 
-    def rebalance(self, xNode, yNode, zNode):
-        if xNode.left == yNode and yNode.right == zNode:
-            xNode.left = self.leftRotation(yNode, zNode)
-            print(xNode.value, yNode.value, zNode.value)
-            node = self.rightRotation(xNode, zNode, yNode)
-            xNode.value = node.value
-            xNode.parent = node.parent
-            xNode.left = node.left
-            xNode.right = node.right
+    def rebalance(self, z,x,y):
+        if z.left == y and y.left == x :
+            self.rightRotate(z)
+        elif z.left == y and y.right == x :
+            self.leftRotate(y)
+            self.rightRotate(z)
+        elif z.right == y and y.right == x :
+            self.leftRotate(z)
+        elif z.right == y and y.left == x :
+            self.rightRotate(y)
+            self.leftRotate(z)
 
-    def leftRotation(self, xNode, yNode, zNode = None):
-        yNode.left = xNode
-        xNode.parent = yNode
-        xNode.right = None
-        yNode.right = zNode
-        return yNode
+    def rightRotate(self, z):
+        sub_root = z.parent
+        y = z.left
+        t3 = y.right
+        y.right = z
+        z.parent = y
+        z.left = t3
+        if t3 != None : t3.parent = z
+        y.parent = sub_root
+        if y.parent is None :
+            self.root = y
+        else :
+            if y.parent.left == z : y.parent.left = y
+            else : y.parent.right = y
 
-    def rightRotation(self, xNode, yNode, zNode = None):
-        yNode.right = xNode
-        xNode.parent = yNode
-        xNode.left = None
-        yNode.right = zNode
-        return yNode
+    def leftRotate(self, z):
+        sub_root = z.parent
+        y = z.right
+        t3 = y.left
+        y.left = z
+        z.parent = y
+        z.right = t3
+        if t3 != None : t3.parent = z
+        y.parent = sub_root
+        if y.parent is None :
+            self.root = y
+        else :
+            if y.parent.left == z : y.parent.left = z
+            else : y.parent.right = y
 
     def illustrate(self) :
         if self.root == None :
@@ -188,56 +209,56 @@ def main():
     tree.illustrate()
     print("------------------------------------------------------------------")
 
-    tree.insert(8)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-    tree.insert(10)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-    tree.insert(7)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-    tree.insert(9)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-    tree.delete(5)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-
-    tree.delete(8)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-
-    tree.delete(10)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-
-    tree.delete(4)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-    tree.insert(10)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-    tree.insert(11)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-    tree.insert(12)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
-
-    tree.insert(13)
-    tree.illustrate()
-    print("------------------------------------------------------------------")
+#    tree.insert(8)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#    tree.insert(10)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#    tree.insert(7)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#    tree.insert(9)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#    tree.delete(5)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#
+#    tree.delete(8)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#
+#    tree.delete(10)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#
+#    tree.delete(4)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#    tree.insert(10)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#    tree.insert(11)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#    tree.insert(12)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
+#
+#    tree.insert(13)
+#    tree.illustrate()
+#    print("------------------------------------------------------------------")
 
 if __name__ == "__main__":
     main()
