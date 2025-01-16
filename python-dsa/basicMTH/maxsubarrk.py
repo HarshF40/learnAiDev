@@ -1,10 +1,12 @@
 def subarr(k):
     arr = [2,1,5,1,3,2]
-    sum = getSum(arr[0:k])
-    for i in range(1 ,len(arr)-k):
-        if getSum(arr[i:k+i]) > sum :
-            sum = getSum(arr[i:k+i])
-    return sum
+    current_sum = getSum(arr[0:k])
+    max_sum = current_sum
+    for i in range(1 ,len(arr)-k+1):
+        current_sum = current_sum - arr[i-1] + arr[k + i - 1]
+        if current_sum > max_sum :
+            max_sum = current_sum
+    return max_sum
 
 def getSum(arr):
     sum = 0
